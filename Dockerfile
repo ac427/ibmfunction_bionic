@@ -16,7 +16,7 @@
 #
 
 # Dockerfile for python AI actions, overrides and extends ActionRunner from actionProxy
-FROM ubuntu:bionic
+FROM ubuntu:bionic-20200526
 
 ENV FLASK_PROXY_PORT 8080
 ENV PYTHONIOENCODING "UTF-8"
@@ -24,7 +24,7 @@ ENV PATH="/usr/local/saclient/bin:${PATH}"
 
 COPY actionProxy pythonAction requirements.txt /tmp/ 
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN apt-get install -y \
         gcc \
         libc-dev \
         libxslt-dev \
@@ -39,6 +39,5 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         &&  curl -o saclient.zip -sL "https://cloud.appscan.com/api/SCX/StaticAnalyzer/SAClientUtil?os=linux" \
         &&  unzip saclient.zip && rm -rf saclient.zip && mv SAClientUtil* /usr/local/saclient \
         && bash -c 'mkdir -p {/actionProxy,/pythonAction}' && mv /tmp/actionproxy.py /actionProxy && mv /tmp/pythonrunner.py pythonAction
-
 
 CMD cd /pythonAction && python3 -u pythonrunner.py
