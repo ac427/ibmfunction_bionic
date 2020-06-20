@@ -22,7 +22,7 @@ ENV FLASK_PROXY_PORT 8080
 ENV PYTHONIOENCODING "UTF-8"
 ENV PATH="/usr/local/saclient/bin:${PATH}"
 
-COPY /actionProxy /pythonAction requirements.txt /   
+COPY actionProxy pythonAction requirements.txt /tmp/ 
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         gcc \
@@ -35,9 +35,10 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         unzip \
         curl python3 python3-pip \
         && rm -rf /var/lib/apt/lists/* \
-        && pip3 install --no-cache-dir -r /requirements.txt \
+        && pip3 install --no-cache-dir -r /tmp/requirements.txt \
         &&  curl -o saclient.zip -sL "https://cloud.appscan.com/api/SCX/StaticAnalyzer/SAClientUtil?os=linux" \
-        &&  unzip saclient.zip && rm -rf saclient.zip && mv SAClientUtil* /usr/local/saclient 
+        &&  unzip saclient.zip && rm -rf saclient.zip && mv SAClientUtil* /usr/local/saclient \
+        && bash -c 'mkdir -p {/actionProxy,/pythonAction}' && mv /tmp/actionproxy.py /actionProxy && mv /tmp/pythonrunner.py pythonAction
 
 
 CMD cd /pythonAction && python3 -u pythonrunner.py
