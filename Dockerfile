@@ -22,7 +22,7 @@ ENV FLASK_PROXY_PORT 8080
 ENV PYTHONIOENCODING "UTF-8"
 ENV PATH="/usr/local/saclient/bin:${PATH}"
 
-COPY requirements.txt requirements2.txt /
+COPY /actionProxy /pythonAction requirements.txt /   
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         gcc \
@@ -33,17 +33,11 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         libssl-dev \
         zip \
         unzip \
-        curl python python3 python-pip python3-pip python3-requests \
+        curl python3 python3-pip \
         && rm -rf /var/lib/apt/lists/* \
-        && pip install --no-cache-dir -r /requirements2.txt \
         && pip3 install --no-cache-dir -r /requirements.txt \
         &&  curl -o saclient.zip -sL "https://cloud.appscan.com/api/SCX/StaticAnalyzer/SAClientUtil?os=linux" \
-        &&  unzip saclient.zip && rm -rf saclient.zip && mv SAClientUtil* /usr/local/saclient
+        &&  unzip saclient.zip && rm -rf saclient.zip && mv SAClientUtil* /usr/local/saclient 
 
-RUN mkdir -p /actionProxy
-ADD https://raw.githubusercontent.com/apache/openwhisk-runtime-docker/dockerskeleton%401.3.3/core/actionProxy/actionproxy.py /actionProxy/actionproxy.py
 
-RUN mkdir -p /pythonAction
-COPY pythonrunner.py /pythonAction/pythonrunner.py
-
-CMD cd /pythonAction && python -u pythonrunner.py
+CMD cd /pythonAction && python3 -u pythonrunner.py
