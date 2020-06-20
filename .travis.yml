@@ -1,0 +1,9 @@
+language: python
+python:
+- '3.7'
+install:
+- pip3 install PyGithub
+script:
+- python3 travis_scripts/check_tag.py || travis_terminate 1
+- if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" ]] ; then python3
+  travis_scripts/push_tag.py ; fi
