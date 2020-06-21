@@ -24,7 +24,7 @@ ENV PATH="/usr/local/saclient/bin:${PATH}"
 
 COPY actionProxy pythonAction requirements.txt /tmp/ 
 
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
         gcc \
         libc-dev \
         libxslt-dev \
