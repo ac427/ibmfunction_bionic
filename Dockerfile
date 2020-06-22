@@ -19,12 +19,11 @@
 FROM ubuntu:bionic-20200526
 
 ENV FLASK_PROXY_PORT=8080 \
-    PYTHONIOENCODING="UTF-8" \
+    PYTHONIOENCODING="UTF-8"
 
 COPY actionProxy pythonAction requirements.txt /tmp/ 
 
 RUN apt-get update && apt-get install -y \
-        unzip \
         curl python3 python3-pip \
         && rm -rf /var/lib/apt/lists/* \
         && pip3 install --no-cache-dir -r /tmp/requirements.txt \
