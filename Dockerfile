@@ -18,9 +18,9 @@
 # Dockerfile for python AI actions, overrides and extends ActionRunner from actionProxy
 FROM ubuntu:bionic-20200526
 
-ENV FLASK_PROXY_PORT 8080
-ENV PYTHONIOENCODING "UTF-8"
-ENV PATH="/usr/local/saclient/bin:${PATH}"
+ENV FLASK_PROXY_PORT=8080 \
+    PYTHONIOENCODING="UTF-8" \
+    PATH="/usr/local/saclient/bin:${PATH}"
 
 COPY actionProxy pythonAction requirements.txt /tmp/ 
 
