@@ -1,3 +1,3 @@
 #wsk
-gevent == 1.2.2
-flask == 1.0.2
+gevent
+flask
